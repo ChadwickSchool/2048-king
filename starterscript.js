@@ -3,6 +3,7 @@ var UP_ARROW = '38';
 var DOWN_ARROW = '40';
 var LEFT_ARROW = '37';
 var RIGHT_ARROW = '39';
+var totalTileNumber;
 
 
 //As soon as webpage loads run these two functions
@@ -31,7 +32,22 @@ function addTile() {
 	//place a 2 on a random spot in the board
 	var x = Math.round(Math.random()*3);
 	var y = Math.round(Math.random()*3);
+
+	while(grid[x][y] !=="x"){
+	 x = Math.round(Math.random()*3);
+	 y = Math.round(Math.random()*3);
+ }
 	grid[x][y] = "2";
+
+}
+
+function combineTiles()
+{
+	if (grid[x][y] = grid [r][c])
+	{
+
+	}
+
 }
 
 
@@ -65,21 +81,32 @@ document.onkeydown = function(e) {
     //to use triple equals sign
     if (e.keyCode == UP_ARROW) {
         // up arrow
+				combineTilesUp();
         moveTilesUp();
+				addTile();
 
     }
     //double equals sign will convert it for us
     else if (e.keyCode == DOWN_ARROW) {
         // down arrow
-        moveTilesDown();
+				combineTilesDown();
+				moveTilesDown();
+				addTile();
+
 				console.log("Pressed Down");
     }
     else if (e.keyCode == LEFT_ARROW) {
        // left arrow
+			 combineTilesLeft();
+			 moveTilesLeft();
+			 addTile();
        console.log("Pressed left");
     }
     else if (e.keyCode == RIGHT_ARROW) {
        // right arrow
+			 combineTilesRight();
+			 moveTilesRight();
+			 addTile();
        console.log("Pressed right");
     }
 
@@ -89,7 +116,6 @@ document.onkeydown = function(e) {
 //STORAGE OF MOVEMENT FUNCTIONS_________________________
 function moveTilesUp()
 {
-
     for(var r=0; r < grid.length; r++)
     {
         for(var c=0; c<grid[r].length; c++)
@@ -99,23 +125,135 @@ function moveTilesUp()
                 grid[r-1][c] = grid[r][c];
                 grid[r][c] = "x";
             }
-
         }
-
     }
+}
+function combineTilesUp()
+{
+	for(var r=0; r < grid.length; r++)
+	{
+		for(var c=0; c<grid[r].length; c++)
+		{
+			if(r !== 0 && grid[r][c] !== "x" && grid[r-1][c] !== "x" && grid[r][c] === grid[r-1][c]){
+				totalTileNumber = parseInt(grid[r-1][c]) + parseInt(grid[r][c]);
+				grid[r-1][c] = grid[r][c];
+				grid[r-1][c] = totalTileNumber;
 
+				console.log(totalTileNumber);
+
+				if(grid[r-1][c] !=="x"){
+					grid[r][c] = "x";
+				}
+			}
+		}
+	}
 }
 function moveTilesDown()
 {
-	for(var r=3; r >=0; r-=1)
+	for(var r=grid.length-1; r >=0; r--)
 	{
-		for(var c=0; c<grid[r].legnth; c++)
+		for(var c=0; c<grid[r].length; c++)
 		{
 			if(r !== 3 && grid[r][c] !== "x" && grid[r+1][c] === "x")
 			{
 					grid[r+1][c] = grid[r][c];
 					grid[r][c] = "x";
 				}
+
 			}
 		}
+}
+function combineTilesDown()
+{
+	for(var r=grid.length-1; r >=0; r--)
+	{
+		for(var c=0; c<grid[r].length; c++)
+		{
+			if(r !== 3 && grid[r][c] !== "x" && grid[r+1][c] !== "x" && grid[r][c] === grid[r+1][c]){
+				totalTileNumber = parseInt(grid[r+1][c]) + parseInt(grid[r][c]);
+				grid[r+1][c] = grid[r][c];
+				grid[r+1][c] = totalTileNumber;
+
+				console.log(totalTileNumber);
+
+				if(grid[r+1][c] !=="x"){
+					grid[r][c] = "x";
+				}
+			}
+		}
+	}
+}
+
+
+function moveTilesRight()
+{
+	for(var r=0; r < grid.length; r++)
+	{
+		for(var c=3; c>=0; c--)
+		{
+			if(c !== 3  && grid[r][c] !== "x" && grid[r][c+1] === "x")
+			{
+				grid[r][c+1] = grid[r][c];
+				grid[r][c] = "x";
+			}
+		}
+	}
+}
+
+function combineTilesRight()
+{
+	for(var r=0; r < grid.length; r++)
+	{
+		for(var c=3; c>=0; c--)
+		{
+			if(c !== 3 && grid[r][c] !== "x" && grid[r][c+1] !== "x" && grid[r][c] === grid[r][c+1]){
+				totalTileNumber = parseInt(grid[r][c+1]) + parseInt(grid[r][c]);
+				grid[r][c+1] = grid[r][c];
+				grid[r][c+1] = totalTileNumber;
+
+				console.log(totalTileNumber);
+
+				if(grid[r][c+1] !=="x"){
+					grid[r][c] = "x";
+				}
+			}
+		}
+	}
+}
+
+
+
+function moveTilesLeft()
+{
+	for(var r=0; r < grid.length; r++)
+	{
+		for(var c=0; c<=3; c++)
+		{
+			if(c !== 0  && grid[r][c] !== "x" && grid[r][c-1] === "x")
+			{
+				grid[r][c-1] = grid[r][c];
+				grid[r][c] = "x";
+			}
+		}
+	}
+}
+function combineTilesLeft()
+{
+	for(var r=0; r < grid.length; r++)
+	{
+		for(var c=0; c<=3; c++)
+		{
+			if(c !== 0 && grid[r][c] !== "x" && grid[r][c-1] !== "x" && grid[r][c] === grid[r][c-1]){
+				totalTileNumber = parseInt(grid[r][c-1]) + parseInt(grid[r][c]);
+				grid[r][c-1] = grid[r][c];
+				grid[r][c-1] = totalTileNumber;
+
+				console.log(totalTileNumber);
+
+				if(grid[r][c-1] !=="x"){
+					grid[r][c] = "x";
+				}
+			}
+		}
+	}
 }
